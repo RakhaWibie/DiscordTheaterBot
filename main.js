@@ -33,7 +33,14 @@ client.on('message', message => {
     }
 });
 
-client.login(process.env.DISCORD_BOT_TOKEN);
+// Start up the discord bot
+const discordBotToken = process.env.DISCORD_BOT_TOKEN;
+if (discordBotToken) {
+    client.login(discordBotToken);
+} else {
+    console.log("You need to set the Discord Bot Token within the .env file.");
+}
+
 
 // Shutdown process (CTRL + C)
 process.on('SIGINT', () => {
