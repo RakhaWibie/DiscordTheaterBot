@@ -9,6 +9,11 @@ const guildInfo = {
 	guildId: '791787492515905596',
 };
 
+// Set your privileged (admin / permissioned) role id here.
+const privilegedRole = {
+	roleId: '791792436145684500',
+};
+
 // Scheduled reminders
 const timeExpressions = {
 	'0 12 * * Tuesday': 'this Wednesday at 8pm',
@@ -19,4 +24,4 @@ const timeExpressions = {
 	'default' : 'this Wednesday at 8pm',
 };
 
-module.exports = { otherChannel, guildInfo, timeExpressions };
+module.exports = { otherChannel, guildInfo, privilegedRole, timeExpressions };

@@ -12,7 +12,7 @@ const getLastMessageFromBot = async lastMessageFromOtherBot => {
 
 	while (!isFound) {
 		lastMessageFromOtherBot = await playingNextChannel.messages.fetch({ limit: 1, before: messageToSearchFrom });
-		if (lastMessageFromOtherBot.first().author.id === playingNextBotId) {
+		if (lastMessageFromOtherBot.first().author.id === '791854949909790721') {
 			isFound = true;
 		}
 		else {
@@ -44,7 +44,7 @@ module.exports = {
 	execute(message, client, args) {
 		playingNextBotId = constants.otherChannel.otherChannelBotId;
 		playingNextChannel = client.channels.cache.find(channel => channel.name === constants.otherChannel.otherChannelName);
-		const messageEmbed = new Discord.MessageEmbed().setColor(0xffffff);
+		const messageEmbed = new Discord.MessageEmbed().setColor(0xFF69B4);
 
 		// Sends the message in #general if the command isn't called by someone
 		if (!message) {
@@ -69,15 +69,18 @@ module.exports = {
 		// Gets upcoming movie and sends reminder message to the channel
 		getLastMessageFromBot(null)
 			.then(response => {
+				const movieName = `[${response.embeds[0].title}](${response.embeds[0].url})`;
+
+				// Simple reminder if the command is run by someone other than the bot
 				if (message) {
-					messageEmbed.setDescription(`Hey ${message.author}! The next movie being played is: ***${response.content}***.`);
+					messageEmbed.setDescription(`Hey ${message.author}! The next movie being played is: ***${movieName}***.`);
 					channelToSend.send(messageEmbed);
 				}
 				else {
 					const isMovieDay = args.split(' ').splice(-1) === 'Wednesday';
 					if (!isMovieDay) {
-						// Sends reminder message and reacts to itself
-						messageEmbed.setDescription(`React to this message by tonight if you're watching the movie, ***${response.content}***, ${constants.timeExpressions[args]}!`);
+						// Sends full reminder message and reacts to itself
+						messageEmbed.setDescription(`React to this message by tonight if you're watching the movie, ***${movieName}***, ${constants.timeExpressions[args]}!`);
 						channelToSend.send(messageEmbed)
 							.then(sentMessage => {
 								sentMessage.react('👍');
@@ -86,7 +89,8 @@ module.exports = {
 							.catch(console.error);
 					}
 					else {
-						messageEmbed.setDescription(`REMINDER! Today's movie, ***${response.content}***, will be playing **${constants.timeExpressions[args]}!**`);
+						// Sends simple reminder before movie
+						messageEmbed.setDescription(`REMINDER! Today's movie, ***${movieName}***, will be playing **${constants.timeExpressions[args]}!**`);
 						channelToSend.send(messageEmbed);
 					}
 				}
