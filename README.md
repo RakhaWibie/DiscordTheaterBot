@@ -9,7 +9,7 @@ This is a Discord Bot that is being created for my friend's Discord server.
 ## How to Use
 
 1. Clone the repo to download all the code in this project.
-2. Paste the TOKEN of your Discord Bot in the `.env` file next to `DISCORD_BOT_TOKEN`. If you don't have a Discord Bot setup, you can watch [this video by CodeLyon](https://www.youtube.com/watch?v=j_sD9udZnCk) for how to set one up.
+2. Paste the TOKEN of your Discord Bot in the `.env` file next to `DISCORD_BOT_TOKEN`. If you don't have a Discord Bot set up, you can watch [this video by CodeLyon](https://www.youtube.com/watch?v=j_sD9udZnCk) for how to set one up.
 3. Run the command `node .` to start the Discord bot.
 4. ???
 5. Profit :)

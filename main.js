@@ -1,8 +1,12 @@
+"use strict";
+
 // Read environment variables from your .env file
 require('dotenv').config();
 
+const { strict } = require('assert');
 const Discord = require('discord.js');
 const fs = require('fs');
+const cron = require('node-cron');
 
 const client = new Discord.Client();
 
@@ -17,7 +21,6 @@ for (const file of commandFiles) {
     client.commands.set(command.name, command);
 }
 
-
 client.once('ready', () => {
     console.log('The Discord Theater server bot is online...');
 });
@@ -29,8 +32,18 @@ client.on('message', message => {
     const command = args.shift().toLowerCase();
 
     if (command === 'ping') {
-        client.commands.get('ping').execute(message, args);
+        client.commands.get('ping').execute(message, client, args);
+    } else if (command === 'remind') {
+        client.commands.get('remind').execute(message, client, args);
     }
+});
+
+// Cron job to run command on a schedule -- every Tuesday at 12:00PM EST
+cron.schedule('0 12 * * Tuesday', () => {
+    console.log(`Running the scheduled reminder at ${Date.now()}`)
+    client.commands.get('remind').execute(null, client, null);
+}, {
+    timezone: "America/New_York"
 });
 
 // Start up the discord bot
@@ -46,4 +59,4 @@ if (discordBotToken) {
 process.on('SIGINT', () => {
     console.log("The bot is shutting down...");
     process.exit();
-})
+});
