@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const constants = require('../constants');
+const Discord = require('discord.js');
 
 let channelToSend;
 let playingNextBotId;
@@ -43,6 +44,7 @@ module.exports = {
 	execute(message, client, args) {
 		playingNextBotId = constants.otherChannel.otherChannelBotId;
 		playingNextChannel = client.channels.cache.find(channel => channel.name === constants.otherChannel.otherChannelName);
+		const messageEmbed = new Discord.MessageEmbed().setColor(0xffffff);
 
 		// Sends the message in #general if the command isn't called by someone
 		if (!message) {
@@ -67,18 +69,26 @@ module.exports = {
 		// Gets upcoming movie and sends reminder message to the channel
 		getLastMessageFromBot(null)
 			.then(response => {
-				const isMovieDay = args.split(' ').splice(-1) === 'Wednesday';
-				if (!isMovieDay) {
-					// Sends reminder message and reacts to itself
-					channelToSend.send(`React to this message by tonight if you're watching the movie, ${response.content}, ${constants.timeExpressions[args]}!`)
-						.then(sentMessage => {
-							sentMessage.react('👍');
-							sentMessage.react('👎');
-						})
-						.catch(console.error);
+				if (message) {
+					messageEmbed.setDescription(`Hey ${message.author}! The next movie being played is: ***${response.content}***.`);
+					channelToSend.send(messageEmbed);
 				}
 				else {
-					channelToSend.send(`REMINDER! Today's movie, ${response.content}, will be playing ${constants.timeExpressions[args]}!`);
+					const isMovieDay = args.split(' ').splice(-1) === 'Wednesday';
+					if (!isMovieDay) {
+						// Sends reminder message and reacts to itself
+						messageEmbed.setDescription(`React to this message by tonight if you're watching the movie, ***${response.content}***, ${constants.timeExpressions[args]}!`);
+						channelToSend.send(messageEmbed)
+							.then(sentMessage => {
+								sentMessage.react('👍');
+								sentMessage.react('👎');
+							})
+							.catch(console.error);
+					}
+					else {
+						messageEmbed.setDescription(`REMINDER! Today's movie, ***${response.content}***, will be playing **${constants.timeExpressions[args]}!**`);
+						channelToSend.send(messageEmbed);
+					}
 				}
 			}).catch(console.error);
 	},

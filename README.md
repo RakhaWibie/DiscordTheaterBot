@@ -22,4 +22,4 @@ This is a Discord Bot that is being created for my friend's Discord server.
 
 ## Credits
 
-Thank you CodeLyon for providing the basis on how to start a simple Discord bot. You can view their YouTube channel at https://www.youtube.com/channel/UC08G-UJT58SbkdmcOYyOQVw.
+Thank you CodeLyon for providing the basis on how to start a simple Discord bot. You can view their YouTube channel at <https://www.youtube.com/channel/UC08G-UJT58SbkdmcOYyOQVw>.

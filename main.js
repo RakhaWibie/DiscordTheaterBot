@@ -39,7 +39,7 @@ client.on('message', message => {
 	if (command === 'ping') {
 		client.commands.get('ping').execute(message, client, args);
 	}
-	else if (command === 'remind') {
+	else if (command === 'remind' || command === 'playing-next') {
 		client.commands.get('remind').execute(message, client, 'default');
 	}
 });
