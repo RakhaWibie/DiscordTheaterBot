@@ -40,11 +40,11 @@ const checkIfBotExists = async client => {
 
 module.exports = {
 	name: 'remind',
-	description: 'Reminder to watch the movie every week',
+	description: 'Sends a reminder in the channel what the next movie is.',
 	execute(message, client, args) {
 		playingNextBotId = constants.otherChannel.otherChannelBotId;
 		playingNextChannel = client.channels.cache.find(channel => channel.name === constants.otherChannel.otherChannelName);
-		const messageEmbed = new Discord.MessageEmbed().setColor(0xFF69B4);
+		const messageEmbed = new Discord.MessageEmbed().setColor(constants.embedColor.colorHex);
 
 		// Sends the message in #general if the command isn't called by someone
 		if (!message) {

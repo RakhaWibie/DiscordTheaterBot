@@ -3,7 +3,7 @@ const constants = require('../constants');
 
 module.exports = {
 	name: 'ping',
-	description: 'this is a ping command',
+	description: 'A fun ping-pong command that only privileged users can use.',
 	execute(message, client, args) {
 		if (message.member.roles.cache.has(constants.privilegedRole.roleId)) {
 			message.channel.send('pong!');

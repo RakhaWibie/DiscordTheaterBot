@@ -22,7 +22,7 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log('The Discord Theater server bot is online...');
 
-	// Cron jobs to run remind command on a schedule -- i.e. every Tuesday at 12:00PM EST
+	// Cron jobs to run remind command on a schedule (set in constants.js)
 	for (const cronTime in scheduledTimes.timeExpressions) {
 		if (cronTime != 'default') {
 			scheduleCronJob(cronTime.toString());
@@ -39,14 +39,21 @@ client.on('message', message => {
 	if (command === 'ping') {
 		client.commands.get('ping').execute(message, client, args);
 	}
-	else if (command === 'remind' || command === 'playing-next') {
+	else if (command === 'remind') {
 		client.commands.get('remind').execute(message, client, 'default');
+	}
+	else if (command === 'playing-next') {
+		client.commands.get('playing-next').execute(message, client, 'default');
+	}
+	else if (command === 'help') {
+		client.commands.get('help').execute(message, client, args);
 	}
 });
 
+// Sends reminders based on a cron schedule
 const scheduleCronJob = (cronTime) => {
 	cron.schedule(cronTime, () => {
-		console.log(`Running the scheduled reminder at ${Date.now()}`);
+		console.log(`Running the scheduled reminder at ${Date(Date.now()).toString()}`);
 		client.commands.get('remind').execute(null, client, cronTime);
 	}, {
 		timezone: 'America/New_York',

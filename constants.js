@@ -14,7 +14,12 @@ const privilegedRole = {
 	roleId: '791792436145684500',
 };
 
-// Scheduled reminders
+// Set the color of the embeds that the bot sends.
+const embedColor = {
+	colorHex: 0xFF69B4,
+};
+
+// Scheduled reminders -- i.e. every Tuesday at 12:00PM EST
 const timeExpressions = {
 	'0 12 * * Tuesday': 'this Wednesday at 8pm',
 	'0 19 * * Wednesday': 'in one hour',
@@ -24,4 +29,4 @@ const timeExpressions = {
 	'default' : 'this Wednesday at 8pm',
 };
 
-module.exports = { otherChannel, guildInfo, privilegedRole, timeExpressions };
+module.exports = { otherChannel, guildInfo, privilegedRole, embedColor, timeExpressions };
