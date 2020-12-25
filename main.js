@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 // Read environment variables from your .env file
 require('dotenv').config();
 
 const Discord = require('discord.js');
 const fs = require('fs');
 const cron = require('node-cron');
+const scheduledTimes = require('./constants');
 
 const client = new Discord.Client();
 
@@ -19,6 +21,13 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	console.log('The Discord Theater server bot is online...');
+
+	// Cron jobs to run remind command on a schedule -- i.e. every Tuesday at 12:00PM EST
+	for (const cronTime in scheduledTimes.timeExpressions) {
+		if (cronTime != 'default') {
+			scheduleCronJob(cronTime.toString());
+		}
+	}
 });
 
 client.on('message', message => {
@@ -31,17 +40,18 @@ client.on('message', message => {
 		client.commands.get('ping').execute(message, client, args);
 	}
 	else if (command === 'remind') {
-		client.commands.get('remind').execute(message, client, args);
+		client.commands.get('remind').execute(message, client, 'default');
 	}
 });
 
-// Cron job to run command on a schedule -- every Tuesday at 12:00PM EST
-cron.schedule('0 12 * * Tuesday', () => {
-	console.log(`Running the scheduled reminder at ${Date.now()}`)
-	client.commands.get('remind').execute(null, client, null);
-}, {
-	timezone: 'America/New_York'
-});
+const scheduleCronJob = (cronTime) => {
+	cron.schedule(cronTime, () => {
+		console.log(`Running the scheduled reminder at ${Date.now()}`);
+		client.commands.get('remind').execute(null, client, cronTime);
+	}, {
+		timezone: 'America/New_York',
+	});
+};
 
 // Start up the discord bot
 const discordBotToken = process.env.DISCORD_BOT_TOKEN;

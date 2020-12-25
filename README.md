@@ -4,7 +4,13 @@ This is a Discord Bot that is being created for my friend's Discord server.
 
 ## Feature
 
-* Messages the server at 12:00pm EST every Tuesday saying "React to this message by tonight if you're watching (insert movie title from playing next) on (the day after this message day) at 8pm"
+* Messages the server at 12:00pm EST every Tuesday saying "React to this message by tonight if you're watching (insert movie title from playing next) this Wednesday at 8pm!"
+* Messages a similar reminder 1 hour before, 30 minutes before, 10 minutes before, and when the movie time starts.
+
+## TO DO
+
+* Add a -playing-next command to see what the next movie on the list is
+* Add a -remind-me command to DM user about when the next movie is
 
 ## How to Use
 

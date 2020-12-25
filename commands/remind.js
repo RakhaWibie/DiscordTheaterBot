@@ -1,4 +1,5 @@
-const other = require('../constants');
+/* eslint-disable no-unused-vars */
+const constants = require('../constants');
 
 let channelToSend;
 let playingNextBotId;
@@ -21,12 +22,27 @@ const getLastMessageFromBot = async lastMessageFromOtherBot => {
 	return lastMessageFromOtherBot.first();
 };
 
+const checkIfBotExists = async client => {
+	const isSuccess = await client.users.fetch(playingNextBotId)
+		.then(user => { return true; })
+		.catch(error => {
+			// User doesn't exist in this server.
+			if (error.code === 10013) {
+				return false;
+			}
+			else {
+				console.log(error);
+			}
+		});
+	return isSuccess;
+};
+
 module.exports = {
 	name: 'remind',
 	description: 'Reminder to watch the movie every week',
 	execute(message, client, args) {
-		playingNextBotId = other.otherChannel.otherChannelBotId;
-		playingNextChannel = client.channels.cache.find(channel => channel.name === other.otherChannel.otherChannelName);
+		playingNextBotId = constants.otherChannel.otherChannelBotId;
+		playingNextChannel = client.channels.cache.find(channel => channel.name === constants.otherChannel.otherChannelName);
 
 		// Sends the message in #general if the command isn't called by someone
 		if (!message) {
@@ -37,21 +53,33 @@ module.exports = {
 		}
 
 		// Checks that you have the correct playingNextBotId
-		if (!client.users.cache.has(playingNextBotId)) {
-			console.log('Invalid ID for the bot of the playing-next channel');
-			return;
-		}
+		checkIfBotExists(client)
+			.then(doesBotExist => {
+				if (!doesBotExist) {
+					console.log('Invalid ID for the bot of the playing-next channel. Please input the correct id within constants.js.');
+					if (message) {
+						channelToSend.send('Whoops! The owner of this bot needs to configure the playing-next bot id correctly...');
+					}
+					return;
+				}
+			});
 
 		// Gets upcoming movie and sends reminder message to the channel
 		getLastMessageFromBot(null)
 			.then(response => {
-				// Sends reminder message and reacts to itself
-				channelToSend.send(`React to this message by tonight if you're watching the movie, ${response.content}, tomorrow at 8pm!`)
-					.then(sentMessage => {
-						sentMessage.react('👍');
-						sentMessage.react('👎');
-					})
-					.catch(console.error);
+				const isMovieDay = args.split(' ').splice(-1) === 'Wednesday';
+				if (!isMovieDay) {
+					// Sends reminder message and reacts to itself
+					channelToSend.send(`React to this message by tonight if you're watching the movie, ${response.content}, ${constants.timeExpressions[args]}!`)
+						.then(sentMessage => {
+							sentMessage.react('👍');
+							sentMessage.react('👎');
+						})
+						.catch(console.error);
+				}
+				else {
+					channelToSend.send(`REMINDER! Today's movie, ${response.content}, will be playing ${constants.timeExpressions[args]}!`);
+				}
 			}).catch(console.error);
 	},
 };
