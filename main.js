@@ -42,8 +42,8 @@ client.on('message', message => {
 	else if (command === 'remind') {
 		client.commands.get('remind').execute(message, client, 'default');
 	}
-	else if (command === 'playing-next') {
-		client.commands.get('playing-next').execute(message, client, 'default');
+	else if (command === 'next') {
+		client.commands.get('next').execute(message, client, 'default');
 	}
 	else if (command === 'help') {
 		client.commands.get('help').execute(message, client, args);

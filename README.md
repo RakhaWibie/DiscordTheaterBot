@@ -13,7 +13,7 @@ This is a Discord Bot that is being created for my friend's Discord server.
 Commands for this bot are prefixed by the `-` symbol.
 
 * `help`: prints out a list of commands that the bot can respond to.
-* `remind` or `playing-next`: gives back the name of the upcoming movie.
+* `remind` or `next`: gives back the name of the upcoming movie.
 * `ping`: a simple ping-pong that can only be run by privileged members.
 
 ## TO DO

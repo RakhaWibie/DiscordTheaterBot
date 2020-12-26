@@ -12,7 +12,7 @@ const getLastMessageFromBot = async lastMessageFromOtherBot => {
 
 	while (!isFound) {
 		lastMessageFromOtherBot = await playingNextChannel.messages.fetch({ limit: 1, before: messageToSearchFrom });
-		if (lastMessageFromOtherBot.first().author.id === '791854949909790721') {
+		if (lastMessageFromOtherBot.first().author.id === playingNextBotId) {
 			isFound = true;
 		}
 		else {

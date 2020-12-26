@@ -1,17 +1,17 @@
 // Set your playingNextChannel variables here.
 const otherChannel = {
 	otherChannelName: 'playing-next',
-	otherChannelBotId: '235536762389135360',
+	otherChannelBotId: '709271563110973451',
 };
 
 // Set your Guild (server ID) info here.
 const guildInfo = {
-	guildId: '791787492515905596',
+	guildId: '690308425850421309',
 };
 
 // Set your privileged (admin / permissioned) role id here.
 const privilegedRole = {
-	roleId: '791792436145684500',
+	roleId: '735991575317840013',
 };
 
 // Set the color of the embeds that the bot sends.
